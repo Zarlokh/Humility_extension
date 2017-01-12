@@ -1,0 +1,130 @@
+{
+    "images": [
+        {
+            "url": "/ressources/Humility - Logo Koli.png",
+            "keyWords": [
+                "kolizeum"
+            ],
+            "message_notif": "Hey viens essayer de tomber contre moi en Koli maintenant ! :)"
+        },
+        {
+            "url": "/ressources/Humility - Logo Kolirush.png",
+            "keyWords": [
+                "kolirush"
+            ],
+            "message_notif": "Si tu viens pas tout de suite en live, tu verras pas mes combats en kolirush ! :o"
+        },
+        {
+            "url": "/ressources/Humility - Logo Score 300.png",
+            "keyWords": [
+                "score 300"
+            ],
+            "message_notif": "Ce soir, c'est soirée tenta 300 ou soirée fail à toi de voir :)"
+        },
+        {
+            "url": "/ressources/Humility - Logo 1.29.png",
+            "keyWords": [
+                "dofus 1.29"
+            ],
+            "message_notif": "Les bons souvenirs de la 1.29 c'est maintenant :)"
+        },
+        {
+            "url": "/ressources/Humility - Logo Touch.png",
+            "keyWords": [
+                "dofus touch"
+            ],
+            "message_notif": "Go pour une soirée Humili'Touch ! :)"
+        },
+        {
+            "url": "/ressources/Humility - Logo Découvertes.png",
+            "keyWords": [
+                "découverte"
+            ],
+            "message_notif": "Viens faire de bonnes découvertes avec Humili' Jones !"
+        },
+        {
+            "url": "/ressources/Humility - Logo Goultarminator.png",
+            "keyWords": [
+                "goultarminator"
+            ],
+            "message_notif": "A ton avis, qui de moi ou Goultard sortira vainqueur ce soir ?!"
+        },
+        {
+            "url": "/ressources/Humility - Logo quetes.png",
+            "keyWords": [
+                "quêtes"
+            ],
+            "message_notif": "Soirée rigolade au rendez-vous pour vous, étant donné que c'est soirée quêtes pour moi !"
+        },
+        {
+            "url": "url_image_exemple9",
+            "keyWords": [
+                "team 150"
+            ],
+            "message_notif": "A ton avis, ma team 150 gagnerait contre une team 200 ?"
+        },
+        {
+            "url": "/ressources/Humility - Logo Perco.png",
+            "keyWords": [
+                "perco time"
+            ],
+            "message_notif": "Il est temps de faire ces courses ce soir :D Merci les percos !"
+        },
+        {
+            "url": "url_image_exemple11",
+            "keyWords": [
+                "aventure de zero (agride)"
+            ],
+            "message_notif": ""
+        },
+        {
+            "url": "url_image_exemple12",
+            "keyWords": [
+                "survivor (avec viewers)"
+            ],
+            "message_notif": "Qui survivra à cette soirée ?! Moi ou vous ?!"
+        },
+        {
+            "url": "url_image_exemple13",
+            "keyWords": [
+                "event ankama"
+            ],
+            "message_notif": "Wouaaaaah, Ankama fait un event !! Vite !"
+        },
+        {
+            "url": "/ressources/Humility - Logo PVM.png",
+            "keyWords": [
+                "team pvm"
+            ],
+            "message_notif": "Bashing de mob ce soir avec la ptite team !"
+        },
+        {
+            "url": "/ressources/Humility - Logo Chasses.png",
+            "keyWords": [
+                "chasses (légendaires)"
+            ],
+            "message_notif": "Venez m'aider à faire mes chasses :'("
+        },
+        {
+            "url": "url_image_exemple16",
+            "keyWords": [
+                "tournoi"
+            ],
+            "message_notif": "Un ptit tournoi pour montrer qu'Humility est toujours dans la place ! :)"
+        },
+        {
+            "url": "url_image_exemple17",
+            "keyWords": [
+                "krosmaga"
+            ],
+            "message_notif": "Quels dieux sortira vainqueur de ce dudududuuduel ce soir ?!"
+        },
+        {
+            "url": "/ressources/Humility - Logo Joie.png",
+            "keyWords": [
+                "live de la joie", "de la joie"
+            ],
+            "message_notif": "Désolé j'avais pas d'idée de titre de live :'("
+        }
+    ]
+}

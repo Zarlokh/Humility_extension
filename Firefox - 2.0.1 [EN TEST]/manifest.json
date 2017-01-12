@@ -1,0 +1,45 @@
+﻿{
+    "addons": {
+        "addon@example.com": {
+            "updates": [
+            { "version": "2.0",
+                "update_link": "https://example.com/addon-0.3.xpi",
+                "applications": {
+                    "gecko": { "strict_min_version": "48" } 
+                } 
+            }
+            ]
+        }
+    },
+    "update_url": "https://clients2.google.com/service/update2/crx",
+    "manifest_version": 2,
+    "name": "Humility",
+    "version": "2.0",
+    "description": "Soyez informé lorsque Humility lance un live !",
+    "author": "HiryuuKaen et Flaurran",
+    "homepage_url": "http://www.twitch.tv/humilityfr",
+    "browser_action": {
+        "default_icon": {
+            "19": "ressources/iconoff19.png",
+            "38": "ressources/iconoff38.png"
+        },
+        "default_title": "Humility - Dofus - Offline",
+        "default_popup": "popup/popup.html"
+    },
+    "background": {
+        "page": "background/background.html"
+    },
+    "icons": {
+        "16": "ressources/logo16.png",
+        "48": "ressources/logo48.png",
+        "128": "ressources/logo128.png"
+    },
+    "permissions": [
+        "notifications",
+        "*://*.ytimg.com/*",
+         "*://yt3.ggpht.com/*",
+         "storage",
+         "tabs"
+    ],
+    "content_security_policy": "script-src 'self' https://www.googleapis.com; object-src 'self'"
+}
