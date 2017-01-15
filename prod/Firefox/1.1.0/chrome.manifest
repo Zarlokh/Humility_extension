@@ -1,0 +1,6 @@
+# Contenu de l'extension d'Humility
+	content Humility chrome/content/
+# Application du style en extension à la toolbar
+	style chrome://global/content/customizeToolbar.xul chrome://Humility/content/app.css
+	# Fusion de Firefox avec l'overlay
+	overlay chrome://browser/content/browser.xul chrome://Humility/content/app.xul

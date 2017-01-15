@@ -1,0 +1,6 @@
+[03/11/2016] - V2.0
+    Adaptation de l'extension à la nouvelle API Twitch avec l'aide de Zarlokh
+ 
+[16/12/2015] - V1.0
+   Création de l'extension pour prévenir les utilisateurs !
+ 
