@@ -1,4 +1,4 @@
-var apiKey = "AIzaSyCO-ZxDMic7LcajlJtME2RPe8AzIXv66bs";
+var apiKey = "AIzaSyAHZgAMdAmnx_DMWy0rNUXn8DhuC1GYIRU";
 var channelId = "UCAfaDiIGDsYgFXMY2IrJIjg";
 var url = { 
 	'api' : "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=date&channelId=" + channelId + "&key=" + apiKey,
