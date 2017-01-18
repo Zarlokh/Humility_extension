@@ -9,7 +9,6 @@ var keyLocalStorage = {lastVideo: "lastVideoHumility", alertYt: 'alertYtHumi', l
 var boolCheckVideos = false;
 var interval;
 var delais = 14400000;
-localStorage.clear();
 
 //Listener réception de requête inter-extension
 chrome.runtime.onMessage.addListener(
@@ -49,7 +48,7 @@ function checkVideos(){
 	if(!isNew && Date.now() <= parseInt(lastCheckTmp) + delais - 10000) return;
 	$.ajax({
 		url: url.api,
-		dataType: 'jsonp'
+		dataType: 'json'
 	}).done(function(data){
 		localStorage.setItem(keyLocalStorage.lastCheck, Date.now());
 		process(data.items[0]);

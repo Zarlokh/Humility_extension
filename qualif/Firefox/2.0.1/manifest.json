@@ -38,6 +38,7 @@
         "notifications",
         "*://*.ytimg.com/*",
          "*://yt3.ggpht.com/*",
+         "*://www.googleapis.com/youtube/*",
          "storage",
          "tabs"
     ]
