@@ -115,15 +115,6 @@ function processCheckLive(data){
 		});
 
 		var lastTitle = localStorage.getItem(keyLocalStorageTwitch.lastTitle);
-		var imageObject = {};
-		if(streamDatas.title === lastTitle){
-			imageObject = defaultImages.paresseux;
-		}else{
-			imageObject = getImageObject(streamDatas.title);
-			if(typeof lastTitle === 'undefined' || lastTitle === null)
-				localStorage.setItem(keyLocalStorageTwitch.lastTitle, streamDatas.title);
-		}
-
 		/** Notification */
 		chrome.notifications.create("isLive",{
 			type: "basic",
