@@ -5,8 +5,8 @@
             { "version": "2.0",
                 "update_link": "https://example.com/addon-0.3.xpi",
                 "applications": {
-                    "gecko": { "strict_min_version": "48" } 
-                } 
+                    "gecko": { "strict_min_version": "48" }
+                }
             }
             ]
         }
@@ -14,9 +14,9 @@
     "update_url": "https://clients2.google.com/service/update2/crx",
     "manifest_version": 2,
     "name": "Humility",
-    "version": "2.0",
+    "version": "2.0.3",
     "description": "Soyez informé lorsque Humility lance un live !",
-    "author": "HiryuuKaen et Flaurran",
+    "author": "HiryuuKaen et Flaurran et Zarlokh",
     "homepage_url": "http://www.twitch.tv/humilityfr",
     "browser_action": {
         "default_icon": {
