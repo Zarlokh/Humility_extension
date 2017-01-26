@@ -4,16 +4,8 @@ var apiTwitch = "https://api.twitch.tv/kraken/streams?channel=humilityfr";
 var clientID = "f08e5f3ptwhchdmj1ey17ri9ynd1yy1";
 var streamDatas = {isLive: false, title: ""};
 var keyWords = "";
-var defaultImages = {
-	"default": {
-		"url": "/ressources/logo128.png", "message_notif": "Humility vient de lancer un stream.           Rejoins-nous !"
-	},
-	"paresseux": {
-		"url": "/ressources/paresseux.jpg", "message_notif": "Eh ouai, j'ai pas changé le titre depuis mon dernier live. Un problème ?"
-	}
-};
-var keyLocalStorageTwitch = {"lastTitle": "lastTitle"};
-var delais = 60000;
+var delaisTwitch = 60000;
+
 /** Icon config */
 chrome.browserAction.setBadgeBackgroundColor({color:"#B1CA20"});
 
@@ -30,22 +22,21 @@ chrome.runtime.onMessage.addListener(
 function runInterval(){
 	/** Check toutes les minutes */
 	checkLive();
-	setInterval(checkLive, delais);
+	setInterval(checkLive, delaisTwitch);
 }
 
 /** Fonction chargant les mots clés et lancant @runInterval **/
 function run_twitch_extension(){
 	$.ajax({
-		url: keyWordsFile,
-		dataType: 'json'
+		url: keyWordsFile
 	}).done(function(data){
-		keyWords = data.images;
+		keyWords = JSON.parse(data).images;
 		runInterval();
 	});
 }
 
 /**
-* Param : title -> Titre du live 
+* Param : title -> Titre du live
 * Fonction retournant l'url de l'image associé aux mot-clés **/
 function getImageObject(title){
 	//Tableau contenant les possibles url d'image en fonction des mots clés
@@ -101,7 +92,7 @@ function processCheckLive(data){
 
 		chrome.runtime.sendMessage({changeIsLive: true}, function(response){
 			if(typeof response === 'undefined') return;
-			//console.log(response.message || "Problème lors de la réception de la réponse");
+			console.log(response.message || "Problème lors de la réception de la réponse");
 		});
 
 		/** Icones */
@@ -114,18 +105,20 @@ function processCheckLive(data){
 			}
 		});
 
-		var lastTitle = localStorage.getItem(keyLocalStorageTwitch.lastTitle);
-		/** Notification */
-		chrome.notifications.create("isLive",{
-			type: "basic",
+		var imageObject = defaultImages.default;
+		var args = {
+			notifId: notifId.live,
+			type: chrome.notifications.TemplateType.BASIC,
 			iconUrl: imageObject.url,
 			title: streamDatas.title,
-			message: imageObject.message_notif,
-		}, function(){});
+			message: imageObject.message_notif
+		};
+		checkImageIsOk(args);
+
 	}else{
 		chrome.runtime.sendMessage({changeIsLive: false}, function(response){
 			if(typeof response !== 'undefined'){
-				//console.log(response.message || "Problème lors de la réception de la réponse");
+				console.log(response.message || "Problème lors de la réception de la réponse");
 			}
 		});
 

@@ -1,4 +1,4 @@
-var apiKey = "AIzaSyAHZgAMdAmnx_DMWy0rNUXn8DhuC1GYIRU";
+﻿var apiKey = "AIzaSyAHZgAMdAmnx_DMWy0rNUXn8DhuC1GYIRU";
 var channelId = "UCAfaDiIGDsYgFXMY2IrJIjg";
 var url = { 
 	'api' : "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=date&channelId=" + channelId + "&key=" + apiKey,
@@ -8,6 +8,15 @@ var url = {
 var keyLocalStorage = {lastVideo: "lastVideoHumility", alertYt: 'alertYtHumi', lastCheck: 'lastCheck'};
 var boolCheckVideos = false;
 var interval;
+var defaultImages = {
+	"default": {
+		"url": "/ressources/logo128.png", "message_notif": "Humility vient de lancer un stream.           Rejoins-nous !"
+	},
+	"paresseux": {
+		"url": "/ressources/paresseux.jpg", "message_notif": "Eh ouai, j'ai pas changé le titre depuis mon dernier live. Un problème ?"
+	}
+};
+var notifId = { live: 'isLive', video: 'newVideo'};
 var delais = 14400000;
 
 //Listener réception de requête inter-extension
@@ -47,8 +56,7 @@ function checkVideos(){
 	
 	if(!isNew && Date.now() <= parseInt(lastCheckTmp) + delais - 10000) return;
 	$.ajax({
-		url: url.api,
-		dataType: 'json'
+		url: url.api
 	}).done(function(data){
 		localStorage.setItem(keyLocalStorage.lastCheck, Date.now());
 		process(data.items[0]);
@@ -61,27 +69,64 @@ function process(lastVideo){
 	url.video = "https://youtube.com/watch?v=" + lastVideo.id.videoId;
 	if(localStorageLastVideo === null || lastVideo.snippet.publishedAt > localStorageLastVideo){
 		localStorage.setItem(keyLocalStorage.lastVideo, lastVideo.snippet.publishedAt);
-		chrome.notifications.create("newVideo",{
-					type: chrome.notifications.TemplateType.IMAGE,
-					imageUrl: urlImage,
-					iconUrl: "/ressources/logo128.png",
-					title: lastVideo.snippet.title,
-					message: lastVideo.snippet.description
-				}, function(){});
+		var args = {
+			notifId: notifId.video,
+			type: chrome.notifications.TemplateType.IMAGE,
+			imageUrl: urlImage,
+			iconUrl: defaultImages.default.url,
+			title: lastVideo.snippet.title,
+			message: lastVideo.snippet.description
+		};
+		createNotification(args);
 	}
 }
 
 function notificationClickCallback(notif_id){
 	switch(notif_id){
-		case 'isLive' :
+		case notifId.live :
 			chrome.tabs.create({ url: url.stream });
 			chrome.notifications.clear(notif_id, function(){});
 			break;
-		case 'newVideo':
+		case notifId.video:
 			chrome.tabs.create({ url: url.video });
 			chrome.notifications.clear(notif_id, function(){});
 			break;
 		default:
+			console.log("id inconnu");
+	}
+}
+
+function checkImageIsOk(args){
+	$.ajax({
+		url: args.iconUrl
+	}).done(function(){
+		createNotification(args);
+	}).fail(function(){
+		args.iconUrl = defaultImages.default.url;
+		createNotification(args);
+	});
+}
+
+function createNotification(args){
+	switch(args.type){
+		default:
+		case chrome.notifications.TemplateType.BASIC:
+			chrome.notifications.create(args.notifId,{
+				type: args.type,
+				iconUrl: args.iconUrl,
+				title: args.title,
+				message: args.message,
+			}, function(){});
+			break;
+		case chrome.notifications.TemplateType.IMAGE:
+			chrome.notifications.create(args.notifId,{
+				type: args.type,
+				iconUrl: args.iconUrl,
+				title: args.title,
+				message: args.message,
+				imageUrl: args.imageUrl
+			}, function(){});
+			break;
 	}
 }
 
