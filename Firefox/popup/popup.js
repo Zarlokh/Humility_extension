@@ -7,6 +7,9 @@ $(document).ready(function(){
 	var sending = browser.runtime.sendMessage({question: "onAir"});
 	sending.then(handleResponseOnAir, handleErrorOnAir);
 
+	//Listener réception de requête inter-extension
+    browser.runtime.onMessage.addListener(handleMessageChangeOnAir);
+
 	$('#alert_yt').change(function(e){
 		alertYt = $(e.currentTarget).prop('checked');
 		localStorage.setItem(keyLocalStorage, alertYt);
@@ -61,3 +64,10 @@ function handleErrorAlertYt(error)
 	console.log('Error : ' + error);
 }
 
+// Listener of message comes from popup.js
+function handleMessageChangeOnAir(request, sender, sendResponse)
+{
+    if(request.question === "changeOnAir"){
+        sendResponse({changeOnAir: streamDatas.changeOnAir});
+    }
+}
