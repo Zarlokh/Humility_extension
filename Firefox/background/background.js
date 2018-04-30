@@ -11,33 +11,28 @@ var interval;
 var defaultImages = {
 	"default": {
 		"url": "/ressources/logo128.png", "message_notif": "Humility vient de lancer un stream.           Rejoins-nous !"
-	},
+	}
 };
 var notifId = { live: 'isLive', video: 'newVideo'};
 var delais = 14400000;
+var localStorageAlertYt = localStorage.getItem(keyLocalStorage.alertYt);
+if(typeof localStorageAlertYt === 'undefined'){
+    localStorage.setItem(keyLocalStorage.alertYt, false);
+}
+boolCheckVideos = (localStorageAlertYt === 'true') || boolCheckVideos;
 
 //Listener réception de requête inter-extension
-browser.runtime.onMessage.addListener(
-	function(request, sender, sendResponse){
-		if(typeof request.changeAlertYt !== 'undefined'){
-			sendResponse({message: "Message received"});
-			boolCheckVideos = request.changeAlertYt;
-			clearInterval(interval);
-			checkVideos();
-			interval = setInterval(checkVideos, delais)
-		}
-	}
-);
+browser.runtime.onMessage.addListener(handleMessagePopup);
 
 browser.notifications.onClicked.addListener(function(notif_id){
 	notificationClickCallback(notif_id);
 });
 
-var localStorageAlertYt = localStorage.getItem(keyLocalStorage.alertYt);
-if(typeof localStorageAlertYt === 'undefined'){
-	localStorage.setItem(keyLocalStorage.alertYt, false);
-}
-boolCheckVideos = (localStorageAlertYt === 'true') || boolCheckVideos;
+checkVideos();
+//check toutes les xheures
+interval = setInterval(checkVideos, delais);
+
+/** ####### list of functions ####### */
 
 function checkVideos(){
 	if(boolCheckVideos === false) return;
@@ -127,6 +122,18 @@ function createNotification(args){
 	}
 }
 
-checkVideos();
-//check toutes les xheures
-interval = setInterval(checkVideos, delais);
+//Call only if switch alert yt is changed
+function handleMessagePopup(request, sender, sendResponse)
+{
+	if(typeof request.changeAlertYt !== 'undefined'){
+		sendResponse({message: "Message received"});
+		boolCheckVideos = request.changeAlertYt;
+		clearInterval(interval);
+		checkVideos();
+		if (boolCheckVideos) {
+            interval = setInterval(checkVideos, delais)
+        } else {
+			interval = null;
+		}
+	}
+}
