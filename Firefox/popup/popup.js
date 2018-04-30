@@ -67,7 +67,7 @@ function handleErrorAlertYt(error)
 // Listener of message comes from popup.js
 function handleMessageChangeOnAir(request, sender, sendResponse)
 {
-    if(request.question === "changeOnAir"){
+    if(typeof request.changeOnAir !== "undefined"){
         sendResponse({changeOnAir: streamDatas.changeOnAir});
     }
 }

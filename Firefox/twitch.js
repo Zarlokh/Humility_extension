@@ -75,6 +75,7 @@ function setOnAir(stream)
           "48":"/ressources/logo48.png"
       }
   };
+  setBrowserAction(title, badgeText, icon);
 }
 
 function setOffAir()
