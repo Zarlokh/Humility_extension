@@ -3,7 +3,7 @@ var alertYt = false;
 var keyLocalStorage = "alertYtHumi";
 
 $(document).ready(function(){
-	chrome.runtime.sendMessage({question: "isLive"}, function(response){
+	chrome.runtime.sendMessage({question: "isLive"}, function(response) {
 		isLive = response.isLive || false;
 		changeIsLive();
 	});
@@ -46,6 +46,6 @@ function changeIsLive(){
 		$('#twitch_live').removeClass('on-air').addClass('off-air');
 	}else{
 		$('#img_on_air').show();
-		$('#twitch_live').removeClass('off-air').addClass('on-air');		
+		$('#twitch_live').removeClass('off-air').addClass('on-air');
 	}
 }

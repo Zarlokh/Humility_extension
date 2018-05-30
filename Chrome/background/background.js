@@ -10,11 +10,11 @@ var boolCheckVideos = false;
 var interval;
 var defaultImages = {
 	"default": {
-		"url": "/ressources/logo128.png", "message_notif": "Humility vient de lancer un stream.           Rejoins-nous !"
+		"url": "/ressources/logo128.png", "message_notif": "Humility vient de lancer un stream.\nRejoins-nous !"
 	},
 };
 var notifId = { live: 'isLive', video: 'newVideo'};
-var delais = 14400000;
+var delais = 900000;
 
 //Listener réception de requête inter-extension
 chrome.runtime.onMessage.addListener(

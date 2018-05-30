@@ -1,22 +1,33 @@
-﻿var apiKey = "AIzaSyAHZgAMdAmnx_DMWy0rNUXn8DhuC1GYIRU";
+/* Background vars*/
+var apiKey = "AIzaSyAHZgAMdAmnx_DMWy0rNUXn8DhuC1GYIRU";
 var channelId = "UCAfaDiIGDsYgFXMY2IrJIjg";
 var url = {
 	'api' : "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=date&channelId=" + channelId + "&key=" + apiKey,
 	'stream' : "http://www.twitch.tv/humilityfr",
 	'video' : ''
 };
-var keyLocalStorage = {lastVideo: "lastVideoHumility", alertYt: 'alertYtHumi', lastCheck: 'lastCheck'};
+var keyLocalStorage = {
+	lastVideo: "lastVideoHumility",
+	alertYt: 'alertYtHumi',
+	lastCheck: 'lastCheck'
+};
 var boolCheckVideos = false;
 var interval;
 var defaultImages = {
 	"default": {
-		"url": "/ressources/logo128.png", "message_notif": "Humility vient de lancer un stream.           Rejoins-nous !"
+		"url": "/ressources/logo128.png",
+		"message_notif": "Humility vient de lancer un stream.\nRejoins-nous !"
 	}
 };
-var notifId = { live: 'isLive', video: 'newVideo'};
-var delais = 14400000;
+var notifId = {
+	live: 'isLive',
+	video: 'newVideo'
+};
+var delais = 900000;
 var localStorageAlertYt = localStorage.getItem(keyLocalStorage.alertYt);
-if(typeof localStorageAlertYt === 'undefined'){
+var popupIsLoad = false;
+
+if(typeof localStorageAlertYt === 'undefined') {
     localStorage.setItem(keyLocalStorage.alertYt, false);
 }
 boolCheckVideos = (localStorageAlertYt === 'true') || boolCheckVideos;
@@ -24,19 +35,24 @@ boolCheckVideos = (localStorageAlertYt === 'true') || boolCheckVideos;
 //Listener réception de requête inter-extension
 browser.runtime.onMessage.addListener(handleMessagePopup);
 
-browser.notifications.onClicked.addListener(function(notif_id){
+browser.notifications.onClicked.addListener(function(notif_id) {
 	notificationClickCallback(notif_id);
 });
 
+// Look if new video is online on YouTube
 checkVideos();
-//check toutes les xheures
 interval = setInterval(checkVideos, delais);
 
-/** ####### list of functions ####### */
+/* All Functions */
 
-function checkVideos(){
+/**
+* Take a look at YouTube api
+* @return void
+*/
+function checkVideos() {
 	if(boolCheckVideos === false) return;
 
+	// See if last video already checked
 	var lastCheckTmp = localStorage.getItem(keyLocalStorage.lastCheck);
 	var isNew = false;
 
@@ -46,6 +62,7 @@ function checkVideos(){
 		isNew = true;
 	}
 
+	// Request YouTube api
 	if(!isNew && Date.now() <= parseInt(lastCheckTmp) + delais - 10000) return;
 	$.ajax({
 		url: url.api
@@ -55,9 +72,16 @@ function checkVideos(){
 	});
 }
 
-function process(lastVideo){
+/**
+* Take a look at YouTube api
+* @param lastVideo object YouTube
+* @return void
+*/
+function process(lastVideo) {
 	var localStorageLastVideo = localStorage.getItem(keyLocalStorage.lastVideo);
 	var urlImage = lastVideo.snippet.thumbnails.high.url.replace("https:/", "http://");
+
+	// Get last video information
 	url.video = "https://youtube.com/watch?v=" + lastVideo.id.videoId;
 	if(localStorageLastVideo === null || lastVideo.snippet.publishedAt > localStorageLastVideo){
 		localStorage.setItem(keyLocalStorage.lastVideo, lastVideo.snippet.publishedAt);
@@ -69,11 +93,17 @@ function process(lastVideo){
 			title: lastVideo.snippet.title,
 			message: lastVideo.snippet.description
 		};
+
+		// Create Youtube notification
 		createNotification(args);
 	}
 }
 
-function notificationClickCallback(notif_id){
+/**
+* Get Notification click and create tab
+* @return void
+*/
+function notificationClickCallback(notif_id) {
 	switch(notif_id){
 		case notifId.live :
 			browser.tabs.create({ url: url.stream });
@@ -84,11 +114,15 @@ function notificationClickCallback(notif_id){
 			browser.notifications.clear(notif_id, function(){});
 			break;
 		default:
-			console.log("id inconnu");
+			console.log("id unknow");
 	}
 }
 
-function checkImageIsOk(args){
+/**
+* Create notiication if parameters are good
+* @param args object with popup parameters
+*/
+function checkImageIsOk(args) {
 	$.ajax({
 		url: args.iconUrl
 	}).done(function(){
@@ -99,6 +133,10 @@ function checkImageIsOk(args){
 	});
 }
 
+/**
+* Create notification with our arguments
+* @param args object with popup parameters
+*/
 function createNotification(args){
 	switch(args.type){
 		default:
@@ -122,7 +160,9 @@ function createNotification(args){
 	}
 }
 
-//Call only if switch alert yt is changed
+/**
+* Event handler : Wait message popup
+*/
 function handleMessagePopup(request, sender, sendResponse)
 {
 	if(typeof request.changeAlertYt !== 'undefined'){
@@ -135,5 +175,18 @@ function handleMessagePopup(request, sender, sendResponse)
         } else {
 			interval = null;
 		}
+	}
+
+    if(typeof request.changeOnAir !== "undefined"){
+        sendResponse({changeOnAir: streamDatas.changeOnAir});
+    }
+
+    if(typeof request.question !== "undefined" && request.question === "onAir"){
+		popupIsLoad = true;
+        sendResponse({onAir: streamDatas.onAir});
+    }
+
+	if (typeof request.unload !== "undefined" && request.unload) {
+		popupIsLoad = false;
 	}
 }

@@ -3,24 +3,30 @@ var alertYt = false;
 var keyLocalStorage = "alertYtHumi";
 
 $(document).ready(function(){
-	//Communique avec twitch.js
+	//Communication with twitch.js
 	var sending = browser.runtime.sendMessage({question: "onAir"});
-	sending.then(handleResponseOnAir, handleErrorOnAir);
 
-	//Listener réception de requête inter-extension
-    browser.runtime.onMessage.addListener(handleMessageChangeOnAir);
+	sending.then(handleResponseOnAir, handleErrorOnAir);
 
 	$('#alert_yt').change(function(e){
 		alertYt = $(e.currentTarget).prop('checked');
 		localStorage.setItem(keyLocalStorage, alertYt);
-		//Communique avec background.js
+		//Communication with background.js
 		var alertYtSending = browser.runtime.sendMessage({changeAlertYt: alertYt});
+
 		alertYtSending.then(handleResponseAlertYt, handleErrorAlertYt);
 	});
 
 	start();
 });
 
+// Send message when unload
+$(document).unload(function() {
+	var sending = browser.runtime.sendMessage({unload: true});
+	sending.then(handleResponseUnload, handleErrorUnload);
+});
+
+// Start request to Youtube API
 function start(){
 	var localStorageYt = localStorage.getItem(keyLocalStorage);
 	if(localStorageYt == undefined){
@@ -30,6 +36,7 @@ function start(){
 	$('#alert_yt').prop('checked', alertYt);
 }
 
+// Change popup display if stream is online
 function changeOnAir(){
 	if (! onAir) {
 		$('#img_on_air').hide();
@@ -39,6 +46,8 @@ function changeOnAir(){
 		$('#twitch_live').removeClass('off-air').addClass('on-air');
 	}
 }
+
+// Events handlers
 
 function handleResponseOnAir(message)
 {
@@ -64,10 +73,12 @@ function handleErrorAlertYt(error)
 	console.log('Error : ' + error);
 }
 
-// Listener of message comes from popup.js
-function handleMessageChangeOnAir(request, sender, sendResponse)
+function handleResponseUnload(message)
 {
-    if(typeof request.changeOnAir !== "undefined"){
-        sendResponse({changeOnAir: streamDatas.changeOnAir});
-    }
+	console.log('Popup unload success');
+}
+
+function handleErrorUnload(error)
+{
+	console.log('Popup unload error : ' + error);
 }

@@ -1,18 +1,18 @@
 [10/12/2016] - V2.0.0
-	Refonte complète de l'extension : 
-		- Ajout d'une pop-up lors d'un click gauche sur l'extension comprenant liens Twitch, Youtube et réseaux sociaux.
-		- L'image de la notification modifie en fonction de mots clés employés dans le titre du live Twitch.
+	Refonte complete de l'extension :
+		- Ajout d'une pop-up lors d'un click gauche sur l'extension comprenant liens Twitch, Youtube et rï¿½seaux sociaux.
+		- L'image de la notification modifie en fonction de mots clï¿½s employï¿½s dans le titre du live Twitch.
 		(Paresseux si non changement titre)
-		- Si l'utilisateur active les notifications Youtube il en recevra lorsqu'une vidéo sort (La recherche de vidéo est effectuée toute les 6 heures).
-	
+		- Si l'utilisateur active les notifications Youtube il en recevra lorsqu'une vidï¿½o sort (La recherche de vidï¿½o est effectuï¿½e toute les 6 heures).
+
 [13/11/2016] - V1.6.1
 	Ajout du clic sur la notification pour ouvrir le live
 
 [03/11/2016] - V1.6.0
-	Adaptation de l'extension à la nouvelle API Twitch avec l'aide de Zarlokh
+	Adaptation de l'extension ï¿½ la nouvelle API Twitch avec l'aide de Zarlokh
 	(Ajout d'un identifiant d'application)
- 
+
 .............
 
 [16/12/2015] - V1.0
-	Création de l'extension pour prévenir les utilisateurs !
+	Crï¿½ation de l'extension pour prï¿½venir les utilisateurs !
